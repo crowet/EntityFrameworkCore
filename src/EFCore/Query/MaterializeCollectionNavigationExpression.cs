@@ -31,9 +31,13 @@ namespace Microsoft.EntityFrameworkCore.Query
 
         public virtual void Print(ExpressionPrinter expressionPrinter)
         {
-            expressionPrinter.Append($"MaterializeCollectionNavigation({Navigation}, ");
-            expressionPrinter.Visit(Subquery);
-            expressionPrinter.Append(")");
+            expressionPrinter.AppendLine("MaterializeCollectionNavigation(");
+            using (expressionPrinter.Indent())
+            {
+                expressionPrinter.AppendLine($"navigation: {Navigation.ToString()},");
+                expressionPrinter.Append("subquery: ");
+                expressionPrinter.Visit(Subquery);
+            }
         }
     }
 }

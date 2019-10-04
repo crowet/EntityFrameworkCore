@@ -4,7 +4,6 @@
 using System.Runtime.CompilerServices;
 using System.Text;
 using JetBrains.Annotations;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 
 namespace Microsoft.EntityFrameworkCore.Metadata.Internal
@@ -31,44 +30,7 @@ namespace Microsoft.EntityFrameworkCore.Metadata.Internal
         {
             var builder = new StringBuilder();
 
-            builder.Append(indent);
-
-            if (singleLine)
-            {
-                builder.Append("Navigation: ").Append(navigation.DeclaringEntityType.DisplayName()).Append(".");
-            }
-
-            builder.Append(navigation.Name);
-
-            if (navigation.GetFieldName() == null)
-            {
-                builder.Append(" (no field, ");
-            }
-            else
-            {
-                builder.Append(" (").Append(navigation.GetFieldName()).Append(", ");
-            }
-
-            builder.Append(navigation.ClrType?.ShortDisplayName()).Append(")");
-
-            if (navigation.IsCollection())
-            {
-                builder.Append(" Collection");
-            }
-
-            builder.Append(navigation.IsDependentToPrincipal() ? " ToPrincipal " : " ToDependent ");
-
-            builder.Append(navigation.GetTargetType().DisplayName());
-
-            if (navigation.FindInverse() != null)
-            {
-                builder.Append(" Inverse: ").Append(navigation.FindInverse().Name);
-            }
-
-            if (navigation.GetPropertyAccessMode() != PropertyAccessMode.PreferField)
-            {
-                builder.Append(" PropertyAccessMode.").Append(navigation.GetPropertyAccessMode());
-            }
+            builder.Append($"{indent}Navigation: {navigation.DeclaringEntityType.DisplayName()}.{navigation.Name}");
 
             if (includeIndexes)
             {
